@@ -1,6 +1,6 @@
 #pragma once
 
-#include <JuceHeader.h>
+#include <juce_gui_extra/juce_gui_extra.h>
 #include "PluginProcessor.h"
 
 class CustomKnobLookAndFeel : public juce::LookAndFeel_V4
@@ -25,20 +25,17 @@ public:
         auto rw = radius * 2.0f;
         auto angle = rotaryStartAngle + sliderPosProportional * (rotaryEndAngle - rotaryStartAngle);
 
-        // Knob Body
         g.setColour(juce::Colour(0xff12151a));
         g.fillEllipse(rx, ry, rw, rw);
 
         g.setColour(juce::Colour(0xff2d333f));
         g.drawEllipse(rx, ry, rw, rw, 2.0f);
 
-        // Neon Blue Arc Track
         juce::Path p;
         p.addCentredArc(centreX, centreY, radius - 4.0f, radius - 4.0f, 0.0f, rotaryStartAngle, angle, true);
         g.setColour(juce::Colour(0xff00e5ff));
         g.strokePath(p, juce::PathStrokeType(3.0f));
 
-        // Pointer
         juce::Path ptr;
         auto pointerLength = radius * 0.6f;
         ptr.addRectangle(-2.0f, -radius + 4.0f, 4.0f, pointerLength);
