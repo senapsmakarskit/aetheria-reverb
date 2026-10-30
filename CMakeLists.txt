@@ -27,6 +27,8 @@ juce_add_plugin(AETHERIA
     PRODUCT_NAME "AETHERIA Ambient Reverb"
 )
 
+juce_generate_juce_header(AETHERIA)
+
 target_sources(AETHERIA
     PRIVATE
         Source/PluginProcessor.h
@@ -46,6 +48,7 @@ target_link_libraries(AETHERIA
     PRIVATE
         juce::juce_audio_utils
         juce::juce_dsp
+        juce::juce_gui_extra
     PUBLIC
         juce::juce_recommended_config_flags
         juce::juce_recommended_lto_flags
