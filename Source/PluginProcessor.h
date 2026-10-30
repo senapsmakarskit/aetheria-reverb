@@ -1,7 +1,9 @@
 #pragma once
 
-#include <JuceHeader.h>
+#include <juce_audio_processors/juce_audio_processors.h>
+#include <juce_dsp/juce_dsp.h>
 #include <vector>
+#include <cmath>
 
 class AetheriaAudioProcessor : public juce::AudioProcessor
 {
@@ -40,7 +42,6 @@ public:
 private:
     juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout();
 
-    // DSP components
     static constexpr int numDelays = 4;
     std::vector<juce::dsp::DelayLine<float, juce::dsp::DelayLineInterpolationTypes::Linear>> delayLines;
     std::vector<float> feedbackBuffers;
@@ -48,10 +49,7 @@ private:
     juce::dsp::StateVariableTPTFilter<float> lowPassFilter;
     juce::dsp::StateVariableTPTFilter<float> highPassFilter;
 
-    // Pitch shifter state for Shimmer mode
     float pitchPhase = 0.0f;
-
-    // Auto-Swell state for Sigur Rós style bowed attack
     float swellGain = 1.0f;
     float envelope = 0.0f;
 
