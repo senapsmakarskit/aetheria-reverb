@@ -49,22 +49,22 @@ void AetheriaAudioProcessorEditor::paint(juce::Graphics& g)
 
     // Title
     g.setColour(juce::Colour(0xff00e5ff));
-    g.setFont(juce::Font(26.0f, juce::Font::bold));
+    g.setFont(juce::FontOptions(26.0f).withStyle("Bold"));
     g.drawText("AETHERIA", 20, 12, 200, 35, juce::Justification::left);
 
     // Subtitle
     g.setColour(juce::Colour(0xff8a99ad));
-    g.setFont(juce::Font(12.0f, juce::Font::plain));
+    g.setFont(juce::FontOptions(12.0f));
     g.drawText("AMBIENT REVERB ENGINE", 165, 22, 200, 20, juce::Justification::left);
 
     // Developer Credit in Top Right Header
     g.setColour(juce::Colour(0xff00e5ff));
-    g.setFont(juce::Font(13.0f, juce::Font::bold));
+    g.setFont(juce::FontOptions(13.0f).withStyle("Bold"));
     g.drawText("Developed by Martin Strand", getWidth() - 240, 22, 220, 20, juce::Justification::right);
 
     // Knob Labels
     g.setColour(juce::Colour(0xffc5d1e0));
-    g.setFont(juce::Font(12.0f, juce::Font::bold));
+    g.setFont(juce::FontOptions(12.0f).withStyle("Bold"));
 
     g.drawText("DECAY", 30, 90, 90, 20, juce::Justification::centred);
     g.drawText("MIX", 140, 90, 90, 20, juce::Justification::centred);
@@ -78,11 +78,11 @@ void AetheriaAudioProcessorEditor::paint(juce::Graphics& g)
     g.fillRect(0, getHeight() - 30, getWidth(), 30);
 
     g.setColour(juce::Colour(0xff526075));
-    g.setFont(juce::Font(11.0f, juce::Font::plain));
+    g.setFont(juce::FontOptions(11.0f));
     g.drawText("MIDI CC1: Shimmer  |  MIDI CC64: Freeze Pedal  |  Sigur Rós Swell DSP Active", 20, getHeight() - 25, 500, 20, juce::Justification::left);
 
     g.setColour(juce::Colour(0xff00e5ff));
-    g.setFont(juce::Font(12.0f, juce::Font::bold));
+    g.setFont(juce::FontOptions(12.0f).withStyle("Bold"));
     g.drawText("v1.0.0", getWidth() - 80, getHeight() - 25, 60, 20, juce::Justification::right);
 }
 
