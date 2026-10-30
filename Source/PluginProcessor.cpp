@@ -89,7 +89,6 @@ void AetheriaAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce
 {
     juce::ScopedNoDenormals noDenormals;
 
-    // --- MIDI Processing ---
     for (const auto metadata : midiMessages)
     {
         auto msg = metadata.getMessage();
@@ -98,13 +97,11 @@ void AetheriaAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce
             int ccNum = msg.getControllerNumber();
             int ccVal = msg.getControllerValue();
 
-            // CC 1 (Modulation Wheel) controls Shimmer
             if (ccNum == 1)
             {
                 if (auto* param = apvts.getParameter("shimmer"))
                     param->setValueNotifyingHost(ccVal / 127.0f);
             }
-            // CC 64 (Sustain Pedal) toggles Freeze
             else if (ccNum == 64)
             {
                 if (auto* param = apvts.getParameter("freeze"))
@@ -113,7 +110,6 @@ void AetheriaAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce
         }
     }
 
-    // --- Parameters ---
     const float decay = apvts.getRawParameterValue("decay")->load();
     const float mix = apvts.getRawParameterValue("mix")->load() / 100.0f;
     const float shimmerAmount = apvts.getRawParameterValue("shimmer")->load() / 100.0f;
@@ -140,17 +136,18 @@ void AetheriaAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce
     const float swellAttack = 1.0f / (currentSampleRate * juce::jmax(0.05f, swellTimeSec));
     const float threshold = 0.02f;
 
+    constexpr float twoPi = 6.283185307179586f;
+
     for (int s = 0; s < numSamples; ++s)
     {
         const float inL = leftChannel[s];
         const float inR = rightChannel ? rightChannel[s] : inL;
         const float rawInputMono = (inL + inR) * 0.5f;
 
-        // Auto-Swell Attack Suppressor (Sigur Rós bowed effect)
         float absIn = std::abs(rawInputMono);
         if (absIn > threshold && envelope < threshold)
         {
-            swellGain = 0.0f; // Reset gain for smooth swell on transient onset
+            swellGain = 0.0f;
         }
         envelope = absIn * 0.1f + envelope * 0.9f;
 
@@ -166,12 +163,11 @@ void AetheriaAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce
         {
             float delayed = delayLines[i].popSample(0);
 
-            // Shimmer / Pitch-shift (+1 octave octave simulation)
             if (shimmerAmount > 0.0f)
             {
                 pitchPhase += 0.001f;
                 if (pitchPhase >= 1.0f) pitchPhase -= 1.0f;
-                float shimmerMod = std::sin(pitchPhase * juce::MathConstants<float>::twoPi);
+                float shimmerMod = std::sin(pitchPhase * twoPi);
                 delayed += delayed * shimmerMod * shimmerAmount * 0.7f;
             }
 
