@@ -9,6 +9,7 @@ FetchContent_Declare(
     juce
     GIT_REPOSITORY https://github.com/juce-framework/JUCE.git
     GIT_TAG        8.0.0
+    GIT_SHALLOW    TRUE
 )
 FetchContent_MakeAvailable(juce)
 
@@ -45,6 +46,7 @@ target_link_libraries(AETHERIA
     PRIVATE
         juce::juce_audio_utils
         juce::juce_dsp
+    PUBLIC
         juce::juce_recommended_config_flags
         juce::juce_recommended_lto_flags
         juce::juce_recommended_warning_flags
